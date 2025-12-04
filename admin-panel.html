@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Tennis Club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .admin-header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .admin-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .crud-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            color: white;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+
+        .data-table {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .table-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            align-items: center;
+        }
+
+        .table-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(39, 174, 96, 0.2);
+            color: #27ae60;
+        }
+
+        .status-inactive {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .edit-btn {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .delete-btn {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-nav {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-cogs"></i> Panel de Administración</h1>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Gestión completa del Tennis Club</p>
+            
+            <div class="admin-nav">
+                <button class="nav-btn active" onclick="showSection('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </button>
+                <button class="nav-btn" onclick="showSection('users')">
+                    <i class="fas fa-users"></i> Usuarios
+                </button>
+                <button class="nav-btn" onclick="showSection('products')">
+                    <i class="fas fa-box"></i> Productos
+                </button>
+                <button class="nav-btn" onclick="showSection('purchases')">
+                    <i class="fas fa-shopping-cart"></i> Compras
+                </button>
+                <button class="nav-btn" onclick="showSection('inquiries')">
+                    <i class="fas fa-question-circle"></i> Consultas
+                </button>
+                <button class="nav-btn" onclick="showSection('reports')">
+                    <i class="fas fa-chart-bar"></i> Reportes
+                </button>
+                <button class="nav-btn" onclick="showSection('losses')">
+                    <i class="fas fa-exclamation-triangle"></i> Pérdidas
+                </button>
+                <button class="nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Volver al Sitio
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="admin-section">
+            <h2 class="section-title">
+                <i class="fas fa-tachometer-alt"></i> Estadísticas Generales
+            </h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalUsers">0</div>
+                    <div class="stat-label">Usuarios Registrados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProducts">0</div>
+                    <div class="stat-label">Productos en Catálogo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalPurchases">0</div>
+                    <div class="stat-label">Compras Realizadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalRevenue">$0</div>
+                    <div class="stat-label">Ingresos Totales</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                    <div class="stat-number" id="lossIndex">0%</div>
+                    <div class="stat-label">Índice de Pérdida</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Section -->
+        <div id="users-section" class="admin-section hidden">
+            <h2 class="section-title">
+                <i class="fas fa-users"></i> Gestión de Usuarios
+            </h2>
+            
+            <div class="crud-form">
+                <h3 style="color: white; margin-bottom: 1rem;">Agregar/Editar Usuario</h3>
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    <div class="form-group">
+                        <label for="userFullName">Nombre Completo</label>
+                        <input type="text" id="userFullName" placeholder="Nombre completo del usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" id="userEmail" placeholder="correo@ejemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPhone">Teléfono</label>
+                        <input type="tel" id="userPhone" placeholder="123-456-7890" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userUsername">Usuario</label>
+                        <input type="text" id="userUsername" placeholder="nombre_usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Contraseña</label>
+                        <input type="password" id="userPassword" placeholder="Nueva contraseña">
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Rol</label>
+                        <select id="userRole" required>
+                            <option value="user">Usuario</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userActive">Estado</label>
+                        <select id="userActive" required>
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Guardar Usuario
+                    </button>
+                    <button type="button" class="btn" onclick="clearUserForm()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </form>
+            </div>
+            
+            <div class="data-table">
+                <div class="table-header">
+                    <div class="table-row">
+                        <div>ID</div>
+                        <div>Nombre</div>
+                        <div>Email</div>
+                        <div>Usuario</div>
+                        <div>Rol</div>
+                        <div>Estado</div>
+                        <div>Acciones</div>
+                    </div>
+                </div>
+                <div id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div id="products-section" class="admin-section hidden">
+            <h2 class="section-title">
+                <i class="fas fa-box"></i> Gestión de Productos
+            </h2>
+            
+            <div class="crud-form">
+                <h3 style="color: white; margin-bottom: 1rem;">Agregar/Editar Producto</h3>
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-group">
+                        <label for="productName">Nombre del Producto</label>
+                        <input type="text" id="productName" placeholder="Nombre del producto" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Descripción</label>
+                        <textarea id="productDescription" placeholder="Descripción del producto" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Precio</label>
+                        <input type="number" id="productPrice" step="0.01" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">URL de Imagen</label>
+                        <input type="url" id="productImage" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label for="productCategory">Categoría</label>
+                        <select id="productCategory" required>
+                            <option value="ropa">Ropa</option>
+                            <option value="calzado">Calzado</option>
+                            <option value="accesorios">Accesorios</option>
+                            <option value="equipamiento">Equipamiento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productStock">Stock</label>
+                        <input type="number" id="productStock" placeholder="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productActive">Estado</label>
+                        <select id="productActive" required>
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Guardar Producto
+                    </button>
+                    <button type="button" class="btn" onclick="clearProductForm()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </form>
+            </div>
+            
+            <div class="data-table">
+                <div class="table-header">
+                    <div class="table-row">
+                        <div>ID</div>
+                        <div>Nombre</div>
+                        <div>Precio</div>
+                        <div>Categoría</div>
+                        <div>Stock</div>
+                        <div>Estado</div>
+                        <div>Acciones</div>
+                    </div>
+                </div>
+                <div id="productsTableBody">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchases Section -->
+        <div id="purchases-section" class="admin-section hidden">
+            <h2 class="section-title">
+                <i class="fas fa-shopping-cart"></i> Historial de Compras
+            </h2>
+            
+            <div class="data-table">
+                <div class="table-header">
+                    <div class="table-row">
+                        <div>ID</div>
+                        <div>Usuario</div>
+                        <div>Producto</div>
+                        <div>Cantidad</div>
+                        <div>Precio</div>
+                        <div>Total</div>
+                        <div>Fecha</div>
+                    </div>
+                </div>
+                <div id="purchasesTableBody">
+                    <!-- Purchases will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Inquiries Section -->
+        <div id="inquiries-section" class="admin-section hidden">
+            <h2 class="section-title">
+                <i class="fas fa-question-circle"></i> Consultas de Clases
+            </h2>
+            
+            <div class="data-table">
+                <div class="table-header">
+                    <div class="table-row">
+                        <div>ID</div>
+                        <div>Usuario</div>
+                        <div>Servicio</div>
+                        <div>Mensaje</div>
+                        <div>Estado</div>
+                        <div>Fecha</div>
+                        <div>Acciones</div>
+                    </div>
+                </div>
+                <div id="inquiriesTableBody">
+                    <!-- Inquiries will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reports-section" class="admin-section hidden">
+            <h2 class="section-title">
+                <i class="fas fa-chart-bar"></i> Reportes de Inventario
+                <span id="currentPeriodIndicator" style="font-size: 0.8rem; color: rgba(255,255,255,0.8); font-weight: normal; margin-left: 10px;"></span>
+            </h2>
+            
+            <!-- Period Selector -->
+            <div class="crud-form" style="margin-bottom: 2rem;">
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <label style="color: white; font-weight: 600; font-size: 1.1rem;">
+                        <i class="fas fa-calendar-alt"></i> Selecciona Período:
+                    </label>
+                    <button class="btn btn-success" id="weeklyBtn" onclick="loadReport('weekly')" style="font-weight: 600;">
+                        <i class="fas fa-calendar-week"></i> 📅 SEMANAL (7 días)
+                    </button>
+                    <button class="btn" id="monthlyBtn" onclick="loadReport('monthly')" style="font-weight: 600; background: #3498db;">
+                        <i class="fas fa-calendar"></i> 📅 MENSUAL (30 días)
+                    </button>
+                    <hr style="border: 1px solid rgba(255,255,255,0.3); width: 100%; margin: 0.5rem 0;">
+                    <button class="btn" onclick="downloadReport()" style="background: #e74c3c; font-weight: 600;">
+                        <i class="fas fa-file-pdf"></i> 📥 DESCARGAR PDF
+                    </button>
+                    <button class="btn" style="background: #f39c12; font-weight: 600;" onclick="window.open('debug-reports.php', '_blank')">
+                        <i class="fas fa-bug"></i> 🔍 DEPURAR
+                    </button>
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="stats-grid" id="reportSummary">
+                <div class="stat-card">
+                    <div class="stat-number" id="reportTotalProducts">0</div>
+                    <div class="stat-label">Total Productos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="reportTotalStock">0</div>
+                    <div class="stat-label">Stock Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="reportTotalSold">0</div>
+                    <div class="stat-label">Unidades Vendidas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="reportTotalRevenue">$0</div>
+                    <div class="stat-label">Ingresos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="reportLowStock">0</div>
+                    <div class="stat-label">Productos Bajo Stock</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="reportOutOfStock">0</div>
+                    <div class="stat-label">Sin Stock</div>
+                </div>
+            </div>
+
+            <!-- Top Products -->
+            <div class="admin-content" style="margin-top: 2rem;">
+                <div class="admin-section">
+                    <h3 class="section-title" style="font-size: 1.2rem;">
+                        <i class="fas fa-trophy"></i> Productos Más Vendidos
+                    </h3>
+                    <div class="data-table">
+                        <div id="topProductsTable">
+                            <!-- Top products will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h3 class="section-title" style="font-size: 1.2rem;">
+                        <i class="fas fa-exclamation-triangle"></i> Productos con Bajo Stock
+                    </h3>
+                    <div class="data-table">
+                        <div id="lowStockTable">
+                            <!-- Low stock products will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Sales -->
+            <div class="admin-section" style="margin-top: 2rem;">
+                <h3 class="section-title" style="font-size: 1.2rem;">
+                    <i class="fas fa-chart-pie"></i> Ventas por Categoría
+                </h3>
+                <div class="data-table">
+                    <div id="categorySalesTable">
+                        <!-- Category sales will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Products Inventory -->
+            <div class="admin-section" style="margin-top: 2rem;">
+                <h3 class="section-title" style="font-size: 1.2rem;">
+                    <i class="fas fa-boxes"></i> Inventario Completo
+                </h3>
+                <div class="data-table">
+                    <div class="table-header">
+                        <div class="table-row" style="grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 1fr;">
+                            <div>ID</div>
+                            <div>Producto</div>
+                            <div>Categoría</div>
+                            <div>Stock</div>
+                            <div>Precio</div>
+                            <div>Vendidas</div>
+                            <div>Ingresos</div>
+                        </div>
+                    </div>
+                    <div id="inventoryTable">
+                        <!-- Inventory will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Losses Section (Pérdidas de Inventario) -->
+        <div id="losses-section" class="admin-section hidden">
+            <h2 class="section-title">
+                <i class="fas fa-exclamation-triangle"></i> Índice de Pérdida de Inventario
+            </h2>
+            
+            <!-- Estadísticas de Pérdidas -->
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                    <div class="stat-number" id="lossIndexDetail">0%</div>
+                    <div class="stat-label">Índice de Pérdida Total</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);">
+                    <div class="stat-number" id="totalIncidents">0</div>
+                    <div class="stat-label">Incidentes Registrados</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #e67e22 0%, #ca6f1e 100%);">
+                    <div class="stat-number" id="totalQuantityLost">0</div>
+                    <div class="stat-label">Unidades Perdidas</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #c0392b 0%, #922b21 100%);">
+                    <div class="stat-number" id="totalValueLost">$0</div>
+                    <div class="stat-label">Valor Total Perdido</div>
+                </div>
+            </div>
+
+            <!-- Fórmula del Índice -->
+            <div class="crud-form" style="background: rgba(231, 76, 60, 0.1); border: 2px solid #e74c3c;">
+                <h3 style="color: white; margin-bottom: 1rem;">
+                    <i class="fas fa-calculator"></i> Fórmula del Índice de Pérdida
+                </h3>
+                <p style="color: white; font-size: 1.1rem; text-align: center; margin: 1rem 0;">
+                    <strong>Índice de Pérdida (%) = (Pérdidas detectadas / Inventario total) × 100</strong>
+                </p>
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.9rem; text-align: center;">
+                    Mide las pérdidas por robos, deterioro o errores de registro
+                </p>
+            </div>
+            
+            <!-- Formulario para Registrar Pérdida -->
+            <div class="crud-form">
+                <h3 style="color: white; margin-bottom: 1rem;">Registrar Nueva Pérdida</h3>
+                <form id="lossForm">
+                    <div class="form-group">
+                        <label for="lossProduct">Producto Afectado</label>
+                        <select id="lossProduct" required>
+                            <option value="">Seleccione un producto...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lossQuantity">Cantidad Perdida</label>
+                        <input type="number" id="lossQuantity" min="1" placeholder="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lossType">Tipo de Pérdida</label>
+                        <select id="lossType" required>
+                            <option value="robo">🚨 Robo</option>
+                            <option value="deterioro">📦 Deterioro/Daño</option>
+                            <option value="error_registro">❌ Error de Registro</option>
+                            <option value="otro">❓ Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lossReason">Descripción/Razón</label>
+                        <textarea id="lossReason" rows="3" placeholder="Detalles del incidente..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reduceStock">
+                            <input type="checkbox" id="reduceStock" checked style="width: auto; margin-right: 10px;">
+                            Reducir automáticamente del stock
+                        </label>
+                    </div>
+                    <button type="submit" class="btn" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">
+                        <i class="fas fa-save"></i> Registrar Pérdida
+                    </button>
+                    <button type="button" class="btn" onclick="clearLossForm()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </form>
+            </div>
+
+            <!-- Pérdidas por Tipo -->
+            <div class="admin-content" style="margin-top: 2rem;">
+                <div class="admin-section">
+                    <h3 class="section-title" style="font-size: 1.2rem;">
+                        <i class="fas fa-chart-pie"></i> Pérdidas por Tipo
+                    </h3>
+                    <div class="data-table">
+                        <div id="lossesByType">
+                            <!-- Will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h3 class="section-title" style="font-size: 1.2rem;">
+                        <i class="fas fa-box-open"></i> Productos Más Afectados
+                    </h3>
+                    <div class="data-table">
+                        <div id="topAffectedProducts">
+                            <!-- Will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Historial de Pérdidas -->
+            <div class="data-table" style="margin-top: 2rem;">
+                <div class="table-header">
+                    <div class="table-row" style="grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 2fr 1fr 1fr;">
+                        <div>ID</div>
+                        <div>Producto</div>
+                        <div>Cantidad</div>
+                        <div>Tipo</div>
+                        <div>Valor Perdido</div>
+                        <div>Razón</div>
+                        <div>Fecha</div>
+                        <div>Acciones</div>
+                    </div>
+                </div>
+                <div id="lossesTableBody">
+                    <!-- Losses will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="admin-panel.js"></script>
+</body>
+</html>
+

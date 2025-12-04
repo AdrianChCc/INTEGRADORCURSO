@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard de Monitoreo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="font-family: Arial; padding: 20px;">
+
+    <h1>Dashboard de Monitoreo del Sistema</h1>
+    <p>Datos reales/simulados recolectados desde la API.</p>
+
+    <canvas id="latencyChart" width="600" height="200"></canvas>
+    <canvas id="memoryChart" width="600" height="200"></canvas>
+    <canvas id="requestsChart" width="600" height="200"></canvas>
+    <canvas id="dbChart" width="600" height="200"></canvas>
+    <canvas id="errorChart" width="600" height="200"></canvas>
+
+    <script>
+        const labels = [];
+        const latencyData = [];
+        const memoryData = [];
+        const memoryPeakData = [];
+        const requestsData = [];
+        const dbData = [];
+        const errorData = [];
+
+        function createChart(id, label, data) {
+            return new Chart(document.getElementById(id), {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        borderWidth: 2
+                    }]
+                }
+            });
+        }
+
+        const latencyChart = createChart("latencyChart", "Latencia (ms)", latencyData);
+        const memoryChart = createChart("memoryChart", "Memoria usada (MB)", memoryData);
+        const requestsChart = createChart("requestsChart", "Requests por minuto", requestsData);
+        const dbChart = createChart("dbChart", "Tiempo DB (ms)", dbData);
+        const errorChart = createChart("errorChart", "Errores detectados", errorData);
+
+        async function loadMetrics() {
+            const res = await fetch("api/metrics.php");
+            const json = await res.json();
+
+            labels.push(json.timestamp);
+            latencyData.push(json.latency);
+            memoryData.push((json.memory_used / 1024 / 1024).toFixed(2));
+            memoryPeakData.push((json.memory_peak / 1024 / 1024).toFixed(2));
+            requestsData.push(json.requests);
+            dbData.push(json.db_load);
+            errorData.push(json.errors);
+
+            latencyChart.update();
+            memoryChart.update();
+            requestsChart.update();
+            dbChart.update();
+            errorChart.update();
+        }
+
+        setInterval(loadMetrics, 2000);
+    </script>
+
+</body>
+</html>

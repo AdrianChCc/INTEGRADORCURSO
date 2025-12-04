@@ -1,0 +1,874 @@
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Club - Academia de Tenis Profesional</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Check authentication before loading page
+        if (!sessionStorage.getItem('tennisClubAuth')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-tennis-ball"></i>
+                    <span>Tennis Club</span>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#inicio" class="nav-link">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#servicios" class="nav-link">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#entrenadores" class="nav-link">Entrenadores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#instalaciones" class="nav-link">Instalaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#catalogo" class="nav-link">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contacto" class="nav-link">Contacto</a>
+                    </li>
+                    <li class="nav-item" id="adminLink" style="display: none;">
+                        <a href="admin-panel.html" class="nav-link">
+                            <i class="fas fa-cog"></i>
+                            Admin
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="cart-btn" onclick="toggleCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <a href="user-profile.html" class="nav-link">
+                            <i class="fas fa-user"></i>
+                            Mi Perfil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="logout-btn" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Salir
+                        </button>
+                    </li>
+                </ul>
+                <div class="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Eleva tu juego al <span class="highlight">siguiente nivel</span>
+                </h1>
+                <p class="hero-description">
+                    Entrena con los mejores profesionales en nuestras canchas de clase mundial. 
+                    Programas personalizados para todos los niveles.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Reservar Clase</button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-play"></i>
+                        Ver Video
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Estudiantes</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Entrenadores</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Canchas</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="tennis-court">
+                    <div class="court-bg"></div>
+                    <div class="player-silhouette"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nuestros Servicios</h2>
+                <p class="section-description">
+                    Ofrecemos una amplia gama de servicios para mejorar tu técnica y disfrutar del tenis
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3 class="service-title">Clases Individuales</h3>
+                    <p class="service-description">
+                        Entrenamiento personalizado uno a uno con nuestros profesionales certificados
+                    </p>
+                    <div class="service-price">$50/hora</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="service-title">Clases Grupales</h3>
+                    <p class="service-description">
+                        Aprende en grupo y mejora tu juego mientras socializas con otros jugadores
+                    </p>
+                    <div class="service-price">$25/hora</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3 class="service-title">Academia Juvenil</h3>
+                    <p class="service-description">
+                        Programas especializados para niños y adolescentes de 6 a 17 años
+                    </p>
+                    <div class="service-price">$30/hora</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="service-title">Entrenamiento Competitivo</h3>
+                    <p class="service-description">
+                        Preparación para torneos y competencias de alto nivel
+                    </p>
+                    <div class="service-price">$75/hora</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coaches Section -->
+    <section id="entrenadores" class="coaches">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nuestros Entrenadores</h2>
+                <p class="section-description">
+                    Profesionales certificados con años de experiencia en el tenis de alto nivel
+                </p>
+            </div>
+            <div class="coaches-grid">
+                <div class="coach-card">
+                    <div class="coach-image">
+                        <div class="coach-avatar coach-avatar-1"></div>
+                    </div>
+                    <h3 class="coach-name">Rafael Nadal Jr.</h3>
+                    <p class="coach-title">Director Técnico</p>
+                    <p class="coach-experience">18 años de experiencia</p>
+                    <div class="coach-certifications">
+                        <span class="cert">ATP Certified</span>
+                        <span class="cert">ITF Level 3</span>
+                    </div>
+                </div>
+                <div class="coach-card">
+                    <div class="coach-image">
+                        <div class="coach-avatar coach-avatar-2"></div>
+                    </div>
+                    <h3 class="coach-name">Serena Williams</h3>
+                    <p class="coach-title">Entrenadora Senior</p>
+                    <p class="coach-experience">15 años de experiencia</p>
+                    <div class="coach-certifications">
+                        <span class="cert">WTA Certified</span>
+                        <span class="cert">ITF Level 3</span>
+                    </div>
+                </div>
+                <div class="coach-card">
+                    <div class="coach-image">
+                        <div class="coach-avatar coach-avatar-3"></div>
+                    </div>
+                    <h3 class="coach-name">Novak Djokovic</h3>
+                    <p class="coach-title">Especialista Técnico</p>
+                    <p class="coach-experience">16 años de experiencia</p>
+                    <div class="coach-certifications">
+                        <span class="cert">ATP Master</span>
+                        <span class="cert">ITF Level 3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section id="instalaciones" class="facilities">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nuestras Instalaciones</h2>
+                <p class="section-description">
+                    Canchas de última generación y facilidades de primer nivel
+                </p>
+            </div>
+            <div class="facilities-grid">
+                <div class="facility-card">
+                    <div class="facility-image court-clay"></div>
+                    <div class="facility-content">
+                        <h3 class="facility-title">Canchas de Arcilla</h3>
+                        <p class="facility-description">4 canchas profesionales de arcilla con sistema de riego automático</p>
+                    </div>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-image court-hard"></div>
+                    <div class="facility-content">
+                        <h3 class="facility-title">Canchas Duras</h3>
+                        <p class="facility-description">4 canchas de superficie dura con iluminación LED para juego nocturno</p>
+                    </div>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-image clubhouse"></div>
+                    <div class="facility-content">
+                        <h3 class="facility-title">Casa Club</h3>
+                        <p class="facility-description">Vestuarios, cafetería y área de descanso para nuestros miembros</p>
+                    </div>
+                </div>
+                <div class="facility-card">
+                    <div class="facility-image pro-shop"></div>
+                    <div class="facility-content">
+                        <h3 class="facility-title">Tienda Pro</h3>
+                        <p class="facility-description">Equipamiento profesional y servicio de encordado de raquetas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clothing Catalog Section -->
+    <section id="catalogo" class="catalog">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tienda Pro - Ropa de Tenis</h2>
+                <p class="section-description">
+                    Equipamiento deportivo de las mejores marcas mundiales | Envío gratis en compras mayores a $100
+                </p>
+            </div>
+            <div class="catalog-grid" id="catalogoProductos">
+                <!-- Los productos se cargarán automáticamente desde la base de datos -->
+                <div class="loading-products" style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                    <div style="display: inline-block; width: 50px; height: 50px; border: 5px solid #e9ecef; border-top: 5px solid #059669; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <p style="margin-top: 1rem; color: #666; font-size: 1.1rem;">Cargando productos desde la base de datos...</p>
+                </div>
+            </div>
+            
+            <!-- Catálogo estático de respaldo (oculto, solo para referencia) -->
+            <div class="catalog-grid-backup" style="display: none;">
+                <!-- Producto 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1622445275463-afa2ab738c34?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Polo Nike Tennis">
+                        <div class="product-badge">Nuevo</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Polo Nike Court Dri-FIT Victory</h3>
+                        <p class="product-description">Tejido ligero con tecnología anti-sudor. Diseño clásico con cuello y botones. Ideal para torneos.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.9)</span>
+                        </div>
+                        <div class="product-price">$54.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="polo-nike" data-price="54.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://www.stockcenter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dw59ce1b8f/products/ADHZ4282/ADHZ4282-1.JPG" alt="Top Adidas Tennis">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Top Adidas Club Tennis</h3>
+                        <p class="product-description">Top deportivo con soporte interno. Material transpirable y secado rápido. Ajuste ergonómico.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.7)</span>
+                        </div>
+                        <div class="product-price">$35.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="top-adidas" data-price="35.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://static.nike.com/a/images/t_web_pdp_535_v2/f_auto/fcz0clpr5so4jjxxes4u/M+NKCT+FLX+ACE+SHORT+9IN.png" alt="Shorts Tennis">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Shorts Nike Court Flex Ace</h3>
+                        <p class="product-description">Shorts elásticos de 9" con bolsillos profundos para pelotas. Cinturilla elástica con cordón ajustable.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.8)</span>
+                        </div>
+                        <div class="product-price">$46.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="shorts-nike" data-price="46.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://www.tradeinn.com/f/13913/139138311/wilson-falda-team-ii-12.5-jupe.webp" alt="Falda Tennis">
+                        <div class="product-badge">Popular</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Falda Wilson Team 12.5"</h3>
+                        <p class="product-description">Falda plisada con shorts integrados anti-rozaduras. 2 bolsillos para pelotas. Corte atlético moderno.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.9)</span>
+                        </div>
+                        <div class="product-price">$52.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="falda-wilson" data-price="52.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 5 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Sudadera Tennis">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sudadera Nike Heritage</h3>
+                        <p class="product-description">Sudadera con capucha y bolsillos canguro. Perfecta para calentamiento. Interior de felpa suave.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.6)</span>
+                        </div>
+                        <div class="product-price">$72.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="sudadera-nike" data-price="72.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 6 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Pantalones Training">
+                        <div class="product-badge premium">Premium</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Pantalones Adidas Barricade</h3>
+                        <p class="product-description">Pantalones técnicos con tecnología Climacool. Cremalleras en tobillos. Máxima libertad de movimiento.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.8)</span>
+                        </div>
+                        <div class="product-price">$79.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="pantalones-adidas" data-price="79.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 7 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Zapatillas Tennis">
+                        <div class="product-badge">Nuevo</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Zapatillas Nike Court Air Zoom Vapor</h3>
+                        <p class="product-description">Zapatillas profesionales con amortiguación Air Zoom. Suela Herringbone para todas las superficies.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.9)</span>
+                        </div>
+                        <div class="product-price">$134.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="zapatillas-nike" data-price="134.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 8 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://m.media-amazon.com/images/I/81lOa1xZ4PL._AC_SL1500_.jpg" alt="Chaqueta Adidas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Chaqueta Adidas Club Track</h3>
+                        <p class="product-description">Chaqueta cortavientos con forro interior. Cierre completo con cremallera. Bolsillos laterales con cierre.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.7)</span>
+                        </div>
+                        <div class="product-price">$89.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="chaqueta-adidas" data-price="89.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 9 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://www.manelsanchez.com/uploads/media/images/nike-elite-crew-basketball-sock-100-13.jpg" alt="Calcetines Tennis">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Calcetines Nike Elite Crew</h3>
+                        <p class="product-description">Pack de 3 pares con compresión media. Soporte de arco y amortiguación en talón y puntera.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.7)</span>
+                        </div>
+                        <div class="product-price">$26.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="calcetines-nike" data-price="26.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 10 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://cloud.mideporte.pe/wp-content/uploads/2023/05/WRB804003G_2.webp" alt="Muñequeras Tennis">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Muñequeras Wilson Pro</h3>
+                        <p class="product-description">Set de 2 muñequeras de algodón absorbente. Ajuste cómodo con tecnología anti-deslizante.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5)</span>
+                        </div>
+                        <div class="product-price">$14.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="munequeras-wilson" data-price="14.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 11 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://m.media-amazon.com/images/I/51O-UWSx+0L._AC_SL1000_.jpg" alt="Gorra Tennis">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Gorra Nike AeroBill</h3>
+                        <p class="product-description">Gorra con protección UV 50+. Tejido perforado para ventilación. Cierre ajustable en la parte posterior.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.8)</span>
+                        </div>
+                        <div class="product-price">$28.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="gorra-nike" data-price="28.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Producto 12 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://assets.adidas.com/images/h_2000,f_auto,q_auto,fl_lossy,c_fill,g_auto/9753748dc5324ed7ba25e39bdb2c2dcf_9366/Visera_de_Running_AEROREADY_Negro_JD1158_01_00_standard.jpg" alt="Visera Adidas">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Visera Adidas Aeroready</h3>
+                        <p class="product-description">Visera ultraligera con banda absorbente. Material transpirable Aeroready. Diseño minimalista profesional.</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.6)</span>
+                        </div>
+                        <div class="product-price">$22.99</div>
+                        <button class="btn btn-primary add-to-cart" data-product="visera-adidas" data-price="22.99">
+                            <i class="fas fa-shopping-cart"></i>
+                            Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2 class="section-title">Contáctanos</h2>
+                    <p class="section-description">
+                        ¿Listo para comenzar tu entrenamiento? Contáctanos hoy mismo
+                    </p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Dirección</h4>
+                                <p>Av. Deportiva 123, Ciudad Deportiva</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Teléfono</h4>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@tennisclub.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Horarios</h4>
+                                <p>Lun - Dom: 6:00 AM - 10:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form class="form">
+                        <div class="form-group">
+                            <input type="text" class="form-input" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-input" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-input" placeholder="Teléfono" required>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-input" id="serviceType" required>
+                                <option value="">Selecciona un servicio</option>
+                                <option value="individual">Clases Individuales</option>
+                                <option value="grupal">Clases Grupales</option>
+                                <option value="juvenil">Academia Juvenil</option>
+                                <option value="competitivo">Entrenamiento Competitivo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-input" placeholder="Mensaje (opcional)" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-tennis-ball"></i>
+                        <span>Tennis Club</span>
+                    </div>
+                    <p class="footer-description">
+                        La mejor academia de tenis de la ciudad. Entrenamiento profesional para todos los niveles.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Servicios</h4>
+                    <ul class="footer-links">
+                        <li><a href="#servicios">Clases Individuales</a></li>
+                        <li><a href="#servicios">Clases Grupales</a></li>
+                        <li><a href="#servicios">Academia Juvenil</a></li>
+                        <li><a href="#servicios">Entrenamiento Competitivo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Información</h4>
+                    <ul class="footer-links">
+                        <li><a href="#entrenadores">Entrenadores</a></li>
+                        <li><a href="#instalaciones">Instalaciones</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                        <li><a href="#">Horarios</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Contacto</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> Av. Deportiva 123</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@tennisclub.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tennis Club. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3><i class="fas fa-shopping-cart"></i> Carrito de Compras</h3>
+                <button class="close-cart" onclick="toggleCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" onclick="clearCart()">
+                        <i class="fas fa-trash"></i>
+                        Limpiar
+                    </button>
+                    <button class="btn btn-primary" onclick="checkout()">
+                        <i class="fas fa-credit-card"></i>
+                        Comprar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script>
+        // Cargar productos dinámicamente desde la base de datos
+        async function cargarProductosDinamicos() {
+            try {
+                console.log('🔄 Cargando productos desde la base de datos...');
+                
+                // Obtener productos de la BD
+                const productos = await window.dbAPI.getProducts(null, true); // Solo productos activos
+                console.log(`✅ ${productos.length} productos cargados desde la BD`);
+                
+                const catalogoContainer = document.getElementById('catalogoProductos');
+                
+                if (productos.length === 0) {
+                    catalogoContainer.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                            <i class="fas fa-box-open" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+                            <p style="color: #666; font-size: 1.2rem;">No hay productos disponibles</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Limpiar el contenedor
+                catalogoContainer.innerHTML = '';
+                
+                // Crear tarjetas de productos
+                productos.forEach((producto, index) => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.style.opacity = '0';
+                    productCard.style.transform = 'translateY(20px)';
+                    productCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    // Generar ID para el carrito (slug del nombre)
+                    const productId = producto.name.toLowerCase()
+                        .replace(/[^a-z0-9\s-]/g, '')
+                        .replace(/\s+/g, '-')
+                        .substring(0, 50);
+                    
+                    // Sin badges en los productos
+                    let badgeHTML = '';
+                    
+                    // Generar estrellas aleatorias (4.5 - 5.0)
+                    const rating = (4.5 + Math.random() * 0.5).toFixed(1);
+                    const fullStars = Math.floor(rating);
+                    const hasHalfStar = rating % 1 >= 0.5;
+                    
+                    let starsHTML = '';
+                    for (let i = 0; i < fullStars; i++) {
+                        starsHTML += '<i class="fas fa-star"></i>';
+                    }
+                    if (hasHalfStar) {
+                        starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                    }
+                    
+                    productCard.innerHTML = `
+                        <div class="product-image">
+                            <img src="${producto.image_url}" 
+                                 alt="${producto.name}"
+                                 onerror="this.src='https://via.placeholder.com/500x500?text=Imagen+No+Disponible'"
+                            >
+                            ${badgeHTML}
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">${producto.name}</h3>
+                            <p class="product-description">${producto.description || 'Producto de alta calidad para tenis profesional'}</p>
+                            <div class="product-rating">
+                                ${starsHTML}
+                                <span>(${rating})</span>
+                            </div>
+                            <div class="product-price">$${parseFloat(producto.price).toFixed(2)}</div>
+                            ${producto.stock > 0 ? `
+                                <button class="btn btn-primary add-to-cart" 
+                                        data-product-id="${producto.id}"
+                                        data-product="${productId}" 
+                                        data-price="${producto.price}"
+                                        data-name="${producto.name}"
+                                        data-image="${producto.image_url}"
+                                        data-description="${(producto.description || 'Producto de alta calidad').replace(/"/g, '&quot;')}"
+                                        data-stock="${producto.stock}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Agregar al Carrito
+                                </button>
+                                <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #666;">
+                                    <i class="fas fa-box"></i> Stock: ${producto.stock} unidades
+                                </div>
+                            ` : `
+                                <button class="btn" style="background: #ccc; cursor: not-allowed;" disabled>
+                                    <i class="fas fa-times"></i>
+                                    Agotado
+                                </button>
+                            `}
+                        </div>
+                    `;
+                    
+                    catalogoContainer.appendChild(productCard);
+                    
+                    // Animación de entrada
+                    setTimeout(() => {
+                        productCard.style.opacity = '1';
+                        productCard.style.transform = 'translateY(0)';
+                    }, index * 50);
+                });
+                
+                console.log('✅ Catálogo dinámico cargado exitosamente');
+                
+            } catch (error) {
+                console.error('❌ Error cargando productos:', error);
+                const catalogoContainer = document.getElementById('catalogoProductos');
+                catalogoContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #e74c3c; margin-bottom: 1rem;"></i>
+                        <p style="color: #e74c3c; font-size: 1.2rem; margin-bottom: 1rem;">Error al cargar productos</p>
+                        <p style="color: #666;">Por favor, verifica que XAMPP esté ejecutándose y la base de datos esté activa.</p>
+                        <button onclick="cargarProductosDinamicos()" class="btn" style="margin-top: 1rem;">
+                            <i class="fas fa-sync"></i> Reintentar
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        // Cargar productos cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Esperar un poco para que database.js cargue
+            setTimeout(cargarProductosDinamicos, 500);
+        });
+        
+        // Agregar estilo para la animación de carga
+        const styleSpinner = document.createElement('style');
+        styleSpinner.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(styleSpinner);
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
